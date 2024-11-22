@@ -1,0 +1,30 @@
+from collections import namedtuple
+
+
+SCREEN_WIDTH: int = 640
+SCREEN_HEIGHT:int = 480
+
+TYPE_SCREEN_DIMENSIONS = tuple[int, int]
+SCREEN_DIMENSIONS: TYPE_SCREEN_DIMENSIONS = (SCREEN_WIDTH, SCREEN_HEIGHT)
+PLAY_OFFSET_HEIGHT = 100
+# PLAY_AREA_DIMENSIONS: TYPE_SCREEN_DIMENSIONS = (SCREEN_WIDTH, SCREEN_HEIGHT + PLAY_OFFSET_HEIGHT)
+
+Colour = namedtuple("Colour", ["red", "green", "blue"])
+COLOUR_TEAL = Colour(red=36, green=188, blue=168)  # Teal
+COLOUR_BLACK = Colour(red=0, green=0, blue=0) # Black
+COLOUR_WHITE = Colour(red=255, green=255, blue=255)
+COLOUR_GREEN = Colour(red=0, green=255, blue=0) # Green
+COLOUR_RED = Colour(red=255, green=0, blue=0)
+COLOUR_FOOD = Colour(red=23, green=78, blue=200) # ???
+COLOR_SNAKE_HEAD = Colour(red=60, green=200, blue=60) # Green
+
+
+GRID_LINE_WIDTH = 4
+GRID_CELL_WIDTH = 50
+
+
+GRID_DIRECTION_UP = "up"
+GRID_DIRECTION_DOWN = "down"
+GRID_DIRECTION_LEFT = "left"
+GRID_DIRECTION_RIGHT = "right"
+TYPE_GRID_DIRECTION = (GRID_DIRECTION_UP, GRID_DIRECTION_DOWN, GRID_DIRECTION_LEFT, GRID_DIRECTION_RIGHT) 
