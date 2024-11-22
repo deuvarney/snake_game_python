@@ -1,17 +1,7 @@
-from utils.constants import GRID_DIRECTION_DOWN, GRID_DIRECTION_LEFT, GRID_DIRECTION_RIGHT, GRID_DIRECTION_UP, TYPE_SCREEN_DIMENSIONS, TYPE_GRID_DIRECTION
-import itertools
+from utils.constants.constants import TYPE_SCREEN_DIMENSIONS
+import utils.constants.grid as GRID
 
 GRID_COORDINATES = list[list[tuple[int, int]]]
-
-# def get_background_color() -> Colour:
-#     """
-#     Get the colour of the background.
-
-#     Returns:
-#         Colour: The colour of the background of the game.
-#     """
-#     return COLOUR_TEAL
-
 
 def get_grid_lines(screen_dimensions: TYPE_SCREEN_DIMENSIONS, line_width: int, distance: int) -> GRID_COORDINATES:
     """
@@ -68,15 +58,11 @@ def get_all_grid_cells(screen_dimensions: TYPE_SCREEN_DIMENSIONS, line_width: in
 
     points = []
 
-    # y_pos_list = range(0, height, line_width + distance)
     y_pos_list = list(_custom_range(0, height, distance, line_width))
-    # x_pos_list = range(0, width, line_width + distance)
     x_pos_list = list(_custom_range(0, width, distance, line_width))
-    # print('x_pos_list:', x_pos_list)
-    # print('y_pos_list:', y_pos_list)
 
 
-    offset = 1 #line_width + 1
+    offset = 1
 
     for y_idx, y_pos in enumerate(zip(y_pos_list[::2], y_pos_list[1::2])):
         y_pos1,y_pos2 = y_pos
@@ -97,7 +83,6 @@ def get_all_grid_cells(screen_dimensions: TYPE_SCREEN_DIMENSIONS, line_width: in
             ])
         points.append(row)
 
-    # print("Avaialble points:", points[0])
     return points
 
 def get_available_grid_pos(grid_data, used_cells_rects: list[tuple[int, int]]):
@@ -148,13 +133,13 @@ def get_cell_position(grid_data, x_idx, y_idx):
 def get_next_cell_pos(grid_data, x_idx: int, y_idx: int, next_direction: str):
     next_x_idx = x_idx
     next_y_idx = y_idx
-    if(next_direction == GRID_DIRECTION_UP):
+    if(next_direction == GRID.DIRECTION_UP):
         next_y_idx = y_idx - 1
-    elif(next_direction == GRID_DIRECTION_DOWN):
+    elif(next_direction == GRID.DIRECTION_DOWN):
         next_y_idx = y_idx + 1
-    elif(next_direction == GRID_DIRECTION_LEFT):
+    elif(next_direction == GRID.DIRECTION_LEFT):
         next_x_idx = x_idx - 1
-    elif(next_direction == GRID_DIRECTION_RIGHT):
+    elif(next_direction == GRID.DIRECTION_RIGHT):
         next_x_idx = x_idx + 1
 
     grid_x_count, grid_y_count = get_grid_dimension_count(grid_data)
