@@ -8,8 +8,6 @@ import utils.constants.grid as GRID;
 
 Colour = namedtuple("Colour", ["red", "green", "blue"])
 
-BALL_COLOUR = Colour(red=255, green=253, blue=65)
-BALL_RADIUS = 20
 
 pygame.init()
 pygame.display.set_caption("Fake Snake")
@@ -24,9 +22,6 @@ start_game_font = pygame.font.Font(None, 32)
 
 MOVE_SNAKE_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(MOVE_SNAKE_EVENT, 500)
-
-ball_position = [(screen.get_width() // 2), (screen.get_height() // 2)]
-ball_velocity = [randint(-5, 5), randint(-5, 5)]
 
 grid_lines = get_grid_lines(SCREEN_DIMENSIONS, GRID.LINE_WIDTH, GRID.CELL_WIDTH)
 all_grid_cells = get_all_grid_cells(SCREEN_DIMENSIONS, GRID.LINE_WIDTH, 50)
@@ -139,7 +134,6 @@ def main():
                 return
 
         screen.fill(COLOURS.TEAL)
-        pygame.draw.circle(screen, BALL_COLOUR, ball_position, BALL_RADIUS)
         
         # Draw grid lines
         for start_pos, end_pos in grid_lines:
@@ -171,21 +165,6 @@ def main():
             screen.blit(lost_game_text, (220, 160))
 
         pygame.display.update()
-
-        # Check for left and right collisions
-        if ball_position[0] - BALL_RADIUS < 0:
-            ball_velocity[0] = -ball_velocity[0]
-        elif ball_position[0] + BALL_RADIUS > screen.get_width():
-            ball_velocity[0] = -ball_velocity[0]
-
-        # Check for top and bottom collisions
-        if ball_position[1] - BALL_RADIUS < 0:
-            ball_velocity[1] = -ball_velocity[1]
-        elif ball_position[1] + BALL_RADIUS > screen.get_height():
-            ball_velocity[1] = -ball_velocity[1]
-
-        ball_position[0] += ball_velocity[0]
-        ball_position[1] += ball_velocity[1]
 
         clock.tick(60)
 
