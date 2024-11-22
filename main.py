@@ -54,6 +54,9 @@ class Game:
         self.won = False
         self.next_direction = GRID.DIRECTION_RIGHT
         self.food.place_random(self.snake)
+        
+        if running:
+            self.start_snake_position_timer()
     
     def update_snake_position(self, next_direction: str):
         next_cell_rect = get_next_cell_rect(all_grid_cells, self.snake.x_pos, self.snake.y_pos, next_direction)
@@ -96,13 +99,25 @@ class Game:
     def game_over(self):
         self.running = False
         self.lost = True
+        self.stop_snake_position_timer()
 
     def game_won(self):
         self.running = False
         self.won = True
+        self.stop_snake_position_timer()
     
     def increment_score(self):
         self.score += 1
+
+    def start_snake_position_timer(self):
+        pygame.time.set_timer(MOVE_SNAKE_EVENT, 500)
+
+    def stop_snake_position_timer(self):
+        pygame.time.set_timer(MOVE_SNAKE_EVENT, 0)
+    
+    def restart_snake_position_timer(self):
+        # This function will reset the running timer
+        self.start_snake_position_timer()
 
 # Initialize Pygame and create the screen
 pygame.init()
@@ -121,12 +136,13 @@ all_grid_cells = get_all_grid_cells(SCREEN_DIMENSIONS, GRID.LINE_WIDTH, 50)
 
 # Timers and events
 MOVE_SNAKE_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(MOVE_SNAKE_EVENT, 500)
 
 
 def main():
 
     game = Game()
+    # Create Set of pygame direction key
+    pygame_direction_keys_set = { pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT }                      
 
     # TODO: Make this a class member
     next_direction = GRID.DIRECTION_RIGHT
@@ -175,7 +191,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     next_direction = GRID.DIRECTION_UP
-                elif  event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN:
                     next_direction = GRID.DIRECTION_DOWN
                 elif event.key == pygame.K_LEFT:
                     next_direction = GRID.DIRECTION_LEFT
@@ -184,7 +200,14 @@ def main():
                 elif event.key == pygame.K_RETURN and not game.running:
                     next_direction = GRID.DIRECTION_RIGHT # TODO: Move this to a class member
                     game.start(True)
+
+                # Immediately update the snake position if the snake is running and a direction key was pressed
+                if  game.running and event.key in pygame_direction_keys_set:
+                    game.restart_snake_position_timer() # TODO: This seems hacky, create a new class method to update the position immediately? 
+                    game.update_snake_position(next_direction)
+                    
             elif event.type == MOVE_SNAKE_EVENT and game.running:
+                # Update snake position every time the timer ticks
                 game.update_snake_position(next_direction)
             elif event.type == pygame.QUIT:
                 return
