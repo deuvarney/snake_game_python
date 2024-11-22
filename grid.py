@@ -115,8 +115,8 @@ def get_cell_rect(grid_data, x_idx, y_idx):
             cell[0][0][1], # top
             cell[1], # width
             cell[2], # height
-            # cell[3], # x position
-            # cell[4], # y position
+            cell[3], # x position
+            cell[4], # y position
         )
         return cell_rect
     except:
